@@ -1,4 +1,5 @@
 *.py[co]
+test.java
 
 # Packages
 *.egg
