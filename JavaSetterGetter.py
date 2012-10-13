@@ -4,30 +4,47 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         self.view.run_command("expand_selection", {"to": "line"}) 
 
-       
         sels = self.view.sel()
-
-        end_position = 0
-        all_text = []
+        selected_text = []
         properties = []
+        end_position = 0
 
-        for sel in sels:
+        for sel in sels: 
             if sel.end > end_position:
                 end_position = sel.end()
-                all_text = self.view.substr(sel).split('\n')
-                print all_text
+                selected_text = self.view.substr(sel).split('\n')
+                print selected_text
 
-        for line in all_text:
+        for line in selected_text:
             if len(line) > 0:
                 plain_line = line.split()
                 if len(plain_line) != 3:
                     sublime.error_message("You probably have some syntax issues. Check your code.")
                     return
+
+                properties.append( [plain_line[1], plain_line[2] ] )
+        
+        print properties
+
+        output_arr = []
+        for prop in properties:
+            property_name = prop[1].replace(';', '')
+            capitalized_name = property_name[0].capitalize() + property_name[1:len(property_name)]
+            print capitalized_name
             
+            template = """
+    public void set{0}({1} {2}) {{
+        this.{2} = {2};
+    }}
 
+    public {1} get{0}() {{
+        return this.{2};
+    }}"""
 
-
-        #edit = self.view.begin_edit('java_setter_getter')
-        #self.view.insert(edit, end_position, "\nSuck it!")
-
-        #self.view.end_edit(edit)
+            output_arr.append(template.format(capitalized_name, prop[0], property_name))
+        
+        try:
+            edit = self.view.begin_edit('java_setter_getter')
+            self.view.insert(edit, end_position, '\n'.join(output_arr))            
+        finally:
+            self.view.end_edit(edit)   
