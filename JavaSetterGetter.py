@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, indentation
+import sublime, sublime_plugin
 
 class JavaSetterGetterCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -8,12 +8,12 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
         selected_text = []
         properties = []
         end_position = 0
+        output_arr = []
 
         for sel in sels: 
             if sel.end > end_position:
                 end_position = sel.end()
                 selected_text = self.view.substr(sel).split('\n')
-                print selected_text
 
         for line in selected_text:
             if len(line) > 0:
@@ -24,14 +24,10 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
 
                 properties.append( [plain_line[1], plain_line[2] ] )
         
-        print properties
-
-        output_arr = []
         for prop in properties:
             property_name = prop[1].replace(';', '')
             capitalized_name = property_name[0].capitalize() + property_name[1:len(property_name)]
-            print capitalized_name
-            
+                        
             template = """
     public void set{0}({1} {2}) {{
         this.{2} = {2};
