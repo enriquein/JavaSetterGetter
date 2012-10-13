@@ -27,7 +27,7 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
         for prop in properties:
             property_name = prop[1].replace(';', '')
             capitalized_name = property_name[0].capitalize() + property_name[1:len(property_name)]
-                        
+                         
             template = """
     public void set{0}({1} {2}) {{
         this.{2} = {2};

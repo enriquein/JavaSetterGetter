@@ -1,0 +1,14 @@
+[
+{        
+    "id": "tools", 
+    "children":
+    [{
+        "caption": "Java",
+        "id": "java_setter_getter",
+        "children":
+        [
+            { "command": "java_setter_getter" } 
+        ]
+    }]
+}
+]
