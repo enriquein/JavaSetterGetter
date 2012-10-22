@@ -1,0 +1,20 @@
+{
+    "schema_version": "1.2",
+    "packages": [
+        {
+            "name": "JavaSetterGetter",
+            "description": "Creates setters and getters for your class private properties like other IDEs do.",
+            "author": "Enrique Ramirez",
+            "homepage": "https://github.com/enriquein/JavaSetterGetter",
+            "last_modified": "2012-10-18 11:55:00",
+            "platforms": {
+                "*": [
+                    {
+                        "version": "1.0.0",
+                        "url": "https://nodeload.github.com/enriquein/JavaSetterGetter/zipball/v1.0.0"
+                    }
+                ]
+            }
+        }
+    ]
+}
