@@ -16,7 +16,8 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
                 selected_text = self.view.substr(sel).split('\n')
 
         for line in selected_text:
-            if len(line) > 0:
+            line = line.strip();
+            if len(line) > 0 and line[0] != '@':
                 plain_line = line.split()
                 if len(plain_line) != 3:
                     sublime.error_message("You probably have some syntax issues. Check your code.")
