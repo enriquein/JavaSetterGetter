@@ -14,5 +14,5 @@ How to make it work:
 - Go to Tools->Java->Java Setter Getter (or hit the Ctrl+K + Ctrl+J sequence)
 - Your getters and setters should be ready to go.
 
-I'm still working out the kinks on indentation and automatically selecting
-the newly generated text. This will hopefully be present in a future release.
+Hint: You can shift click on the location where
+you want your getters and setters to be generated.
