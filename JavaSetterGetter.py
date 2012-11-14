@@ -21,7 +21,7 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
         sels = self.view.sel()
         selected_text = selections[1]
         properties = []
-        end_position = selections[0]
+        insert_position = selections[0]
         output_arr = []
 
 
@@ -52,9 +52,12 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
 
         try:
             edit = self.view.begin_edit('java_setter_getter')
-            self.view.insert(edit, end_position, '\n'.join(output_arr))
+            insert_count = self.view.insert(edit, insert_position, '\n'.join(output_arr))
             final = getLastSelection(self.view)
+            if insert_position == final[0]:
+                final[0] = final[0] + insert_count
+
             self.view.sel().clear()
-            self.view.sel().add(sublime.Region(end_position, final[0]))
+            self.view.sel().add(sublime.Region(insert_position, final[0]))
         finally:
             self.view.end_edit(edit)
