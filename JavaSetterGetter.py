@@ -7,7 +7,10 @@ def getLastSelection(view):
     for sel in sels:
         if sel.end() > position:
             position = sel.end()
-            selected.append(view.substr(sel))
+            if '\n' in view.substr(sel):
+                selected.extend(view.substr(sel).split('\n'))  
+            else:
+                selected.append(view.substr(sel))
 
     return [position, selected]
 
