@@ -1,19 +1,26 @@
 import sublime, sublime_plugin
 
+def getLastSelection(view):
+    position = 0
+    selected = []
+    sels     = view.sel()
+    for sel in sels:
+        if sel.end() > position:
+            position = sel.end()
+            selected.append(view.substr(sel))
+
+    return [position, selected]
+
 class JavaSetterGetterCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        self.view.run_command("expand_selection", {"to": "line"}) 
 
+        selections = getLastSelection(self.view)
         sels = self.view.sel()
-        selected_text = []
+        selected_text = selections[1]
         properties = []
-        end_position = 0
+        end_position = selections[0]
         output_arr = []
 
-        for sel in sels: 
-            if sel.end > end_position:
-                end_position = sel.end()
-                selected_text = self.view.substr(sel).split('\n')
 
         for line in selected_text:
             line = line.strip();
@@ -24,11 +31,11 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
                     return
 
                 properties.append( [plain_line[1], plain_line[2] ] )
-        
+
         for prop in properties:
             property_name = prop[1].replace(';', '')
             capitalized_name = property_name[0].capitalize() + property_name[1:len(property_name)]
-                         
+
             template = """
     public void set{0}({1} {2}) {{
         this.{2} = {2};
@@ -39,9 +46,12 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
     }}"""
 
             output_arr.append(template.format(capitalized_name, prop[0], property_name))
-        
+
         try:
             edit = self.view.begin_edit('java_setter_getter')
-            self.view.insert(edit, end_position, '\n'.join(output_arr))            
+            self.view.insert(edit, end_position, '\n'.join(output_arr))
+            final = getLastSelection(self.view)
+            self.view.sel().clear()
+            self.view.sel().add(sublime.Region(end_position, final[0]))
         finally:
-            self.view.end_edit(edit)   
+            self.view.end_edit(edit)
