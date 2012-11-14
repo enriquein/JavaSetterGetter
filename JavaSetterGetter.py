@@ -8,7 +8,13 @@ def getLastSelection(view):
         if sel.end() > position:
             position = sel.end()
             if '\n' in view.substr(sel):
-                selected.extend(view.substr(sel).split('\n'))  
+                # I appended my plugin for this, like the idea but found that
+                # if \n is found at the beginning, it doesn't generate the methods
+                #selected.extend(view.substr(sel).split('\n'))  
+                
+                line = view.substr(sel).split("\n")
+                for ln in line:
+                    selected.append(ln)
             else:
                 selected.append(view.substr(sel))
 
@@ -18,7 +24,6 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
     def run(self, edit):
 
         selections = getLastSelection(self.view)
-        sels = self.view.sel()
         selected_text = selections[1]
         properties = []
         insert_position = selections[0]
@@ -53,11 +58,17 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
         try:
             edit = self.view.begin_edit('java_setter_getter')
             insert_count = self.view.insert(edit, insert_position, '\n'.join(output_arr))
-            final = getLastSelection(self.view)
-            if insert_position == final[0]:
-                final[0] = final[0] + insert_count
+            #final = getLastSelection(self.view)
+            #if insert_position == final[0]:
+            #    final[0] = final[0] + insert_count
+
+            # insert_count + insert_position = final[0] always. I had failed to see
+            # that self.view.insert returned an int (I'm learning the API myself)
+            # We can eliminate the second call of getLastSelection(self.view)
+            # and just run the following:
 
             self.view.sel().clear()
-            self.view.sel().add(sublime.Region(insert_position, final[0]))
+            #self.view.sel().add(sublime.Region(insert_position, final[0]))
+            self.view.sel().add(sublime.Region(insert_position, (insert_position + insert_count)))
         finally:
             self.view.end_edit(edit)
