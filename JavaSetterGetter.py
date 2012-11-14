@@ -1,29 +1,28 @@
 import sublime, sublime_plugin
 
-def getLastSelection(view):
+def getSelections(view):
     position = 0
     selected = []
     sels     = view.sel()
     for sel in sels:
         if sel.end() > position:
             position = sel.end()
-            if '\n' in view.substr(sel):
-                # I appended my plugin for this, like the idea but found that
-                # if \n is found at the beginning, it doesn't generate the methods
-                #selected.extend(view.substr(sel).split('\n'))  
-                
-                line = view.substr(sel).split("\n")
-                for ln in line:
-                    selected.append(ln)
+            line     = view.substr(sel)
+            # Check for CRLF
+            if "\r\n" in line:
+                selected.extend(line.split("\r\n"))
+            # Check for LF
+            elif: "\n" in line:
+                selected.extend(line.split("\n"))
             else:
-                selected.append(view.substr(sel))
+                selected.append(line)
 
     return [position, selected]
 
 class JavaSetterGetterCommand(sublime_plugin.TextCommand):
     def run(self, edit):
 
-        selections = getLastSelection(self.view)
+        selections = getSelections(self.view)
         selected_text = selections[1]
         properties = []
         insert_position = selections[0]
