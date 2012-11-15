@@ -12,7 +12,7 @@ def getSelections(view):
             if "\r\n" in line:
                 selected.extend(line.split("\r\n"))
             # Check for LF
-            elif: "\n" in line:
+            elif "\n" in line:
                 selected.extend(line.split("\n"))
             else:
                 selected.append(line)
@@ -27,7 +27,6 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
         properties = []
         insert_position = selections["position"]
         output_arr = []
-
 
         for line in selected_text:
             line = line.strip();
@@ -57,17 +56,7 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
         try:
             edit = self.view.begin_edit('java_setter_getter')
             insert_count = self.view.insert(edit, insert_position, '\n'.join(output_arr))
-            #final = getLastSelection(self.view)
-            #if insert_position == final[0]:
-            #    final[0] = final[0] + insert_count
-
-            # insert_count + insert_position = final[0] always. I had failed to see
-            # that self.view.insert returned an int (I'm learning the API myself)
-            # We can eliminate the second call of getLastSelection(self.view)
-            # and just run the following:
-
             self.view.sel().clear()
-            #self.view.sel().add(sublime.Region(insert_position, final[0]))
             self.view.sel().add(sublime.Region(insert_position, (insert_position + insert_count)))
         finally:
             self.view.end_edit(edit)
