@@ -1,27 +1,31 @@
 import sublime, sublime_plugin
 
-def getLastSelection(view):
+def getSelections(view):
     position = 0
     selected = []
     sels     = view.sel()
     for sel in sels:
         if sel.end() > position:
             position = sel.end()
-            if '\n' in view.substr(sel):
-                selected.extend(view.substr(sel).split('\n'))  
+            line     = view.substr(sel)
+            # Check for CRLF
+            if "\r\n" in line:
+                selected.extend(line.split("\r\n"))
+            # Check for LF
+            elif: "\n" in line:
+                selected.extend(line.split("\n"))
             else:
-                selected.append(view.substr(sel))
+                selected.append(line)
 
-    return [position, selected]
+    return {"position": position, "selections": selected}
 
 class JavaSetterGetterCommand(sublime_plugin.TextCommand):
     def run(self, edit):
 
-        selections = getLastSelection(self.view)
-        sels = self.view.sel()
-        selected_text = selections[1]
+        selections = getSelections(self.view)
+        selected_text = selections["selections"]
         properties = []
-        insert_position = selections[0]
+        insert_position = selections["position"]
         output_arr = []
 
 
@@ -53,11 +57,17 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
         try:
             edit = self.view.begin_edit('java_setter_getter')
             insert_count = self.view.insert(edit, insert_position, '\n'.join(output_arr))
-            final = getLastSelection(self.view)
-            if insert_position == final[0]:
-                final[0] = final[0] + insert_count
+            #final = getLastSelection(self.view)
+            #if insert_position == final[0]:
+            #    final[0] = final[0] + insert_count
+
+            # insert_count + insert_position = final[0] always. I had failed to see
+            # that self.view.insert returned an int (I'm learning the API myself)
+            # We can eliminate the second call of getLastSelection(self.view)
+            # and just run the following:
 
             self.view.sel().clear()
-            self.view.sel().add(sublime.Region(insert_position, final[0]))
+            #self.view.sel().add(sublime.Region(insert_position, final[0]))
+            self.view.sel().add(sublime.Region(insert_position, (insert_position + insert_count)))
         finally:
             self.view.end_edit(edit)
