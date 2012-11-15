@@ -17,15 +17,15 @@ def getSelections(view):
             else:
                 selected.append(line)
 
-    return [position, selected]
+    return {"position": position, "selections": selected}
 
 class JavaSetterGetterCommand(sublime_plugin.TextCommand):
     def run(self, edit):
 
         selections = getSelections(self.view)
-        selected_text = selections[1]
+        selected_text = selections["position"]
         properties = []
-        insert_position = selections[0]
+        insert_position = selections["position"]
         output_arr = []
 
 
