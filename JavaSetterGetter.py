@@ -23,7 +23,7 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
     def run(self, edit):
 
         selections = getSelections(self.view)
-        selected_text = selections["position"]
+        selected_text = selections["selections"]
         properties = []
         insert_position = selections["position"]
         output_arr = []
