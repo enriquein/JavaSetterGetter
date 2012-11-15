@@ -6,12 +6,12 @@
             "description": "Creates setters and getters for your class private properties like other IDEs do.",
             "author": "Enrique Ramirez",
             "homepage": "https://github.com/enriquein/JavaSetterGetter",
-            "last_modified": "2012-10-22 13:23:00",
+            "last_modified": "2012-11-14 19:23:00",
             "platforms": {
                 "*": [
                     {
-                        "version": "1.1.0",
-                        "url": "https://nodeload.github.com/enriquein/JavaSetterGetter/zipball/v1.1.0"
+                        "version": "1.2.0",
+                        "url": "https://nodeload.github.com/enriquein/JavaSetterGetter/zipball/v1.2.0"
                     }
                 ]
             }
