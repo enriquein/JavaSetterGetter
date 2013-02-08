@@ -1,6 +1,11 @@
 *.py[co]
 test.java
 
+# OS Junk
+.DS_Store
+thumbs.db
+[Dd]esktop.ini
+
 # Packages
 *.egg
 *.egg-info
