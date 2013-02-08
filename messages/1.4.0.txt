@@ -1,0 +1,6 @@
+New in version 1.4.0
++ Fixed a bug where generic types were not being picked up by the plugin.
+
+This fix was provided by github user pkorzeniewski [https://github.com/pkorzeniewski] 
+
+Many thanks for being so kind as to contribute to this plugin.
