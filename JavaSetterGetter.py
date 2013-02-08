@@ -8,7 +8,7 @@ java_field_pat = "(?P<indent>\s*)" + \
                  "(?: (?P<transient>transient|volatile))?" + \
                  "(?: (?P<static>static))?" + \
                  "(?: (?P<final>final))?" + \
-                 "(?: (?P<type>[a-zA-Z0-9_$]+))" + \
+                 "(?: (?P<type>[a-zA-Z0-9_$\<\>\,\s]+))" + \
                  "(?: (?P<varname>[a-zA-Z0-9_$]+))" + \
                  "(?:\s*=.+)?;"
 
