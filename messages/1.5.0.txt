@@ -1,0 +1,3 @@
+New in version 1.5.0
++ Fixed a bug where types containing dots '.' would cause it to not generate getter/setters.
+  Example: private java.lang.String text; // this now works!
