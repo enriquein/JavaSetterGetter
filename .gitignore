@@ -1,3 +1,4 @@
+*.sublime-*
 *.py[co]
 test.java
 
