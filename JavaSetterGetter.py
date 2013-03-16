@@ -11,7 +11,6 @@ java_field_pat = "(?P<indent>\s*)" + \
                  "(?: (?P<type>[a-zA-Z0-9_$\<\>\,\.\s]+))" + \
                  "(?: (?P<varname>[a-zA-Z0-9_$]+))" + \
                  "(?:\s*=.+)?;"
-
 java_field_pat = re.compile(java_field_pat)
 
 def matchdict(text):
@@ -39,8 +38,7 @@ def getSelections(view):
             print line, md
         if md.get("access", None) is not None: # Make sure it's private or protected
             if md.get("static", None) is None: # Make sure it's not static
-                if md.get("final", None) is None: # Make sure it's not final
-                    selection_matches.append(md)
+                selection_matches.append(md)
     return {"position": position, "selections": selection_matches}
 
 class JavaSetterGetterCommand(sublime_plugin.TextCommand):
@@ -69,7 +67,12 @@ class JavaSetterGetterCommand(sublime_plugin.TextCommand):
             capitalized_name = property_name[0].capitalize() + property_name[1:len(property_name)]
 
             getter_arr.append(getterTemplate.format(capitalized_name, prop['type'], prop['varname'], prop['indent']))
-            setter_arr.append(setterTemplate.format(capitalized_name, prop['type'], prop['varname'], prop['indent']))
+            if not prop["final"]:
+                setter_arr.append(setterTemplate.format(capitalized_name, prop['type'], prop['varname'], prop['indent']))
+
+        # don't print anything if we don't have any instance members
+        if len(getter_arr)==0 and len(setter_arr)==0:
+            return
 
         try:
             edit = self.view.begin_edit('java_setter_getter')
