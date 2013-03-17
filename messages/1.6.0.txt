@@ -1,0 +1,8 @@
+New in version 1.6.0
++ Added the ability to generate property getters for final variables as
+  justified by this stack overflow answer: http://stackoverflow.com/a/10047926
++ Fix generating excess whitespace lines when encountering invalid members.
+
+Both changes were added courtesy of Chris Wood (https://github.com/chrispwood).
+
+Thanks so much for taking the time to contribute to this plugin!

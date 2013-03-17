@@ -6,12 +6,12 @@
             "description": "Creates setters and getters for your class private properties like other IDEs do.",
             "author": "Enrique Ramirez",
             "homepage": "https://github.com/enriquein/JavaSetterGetter",
-            "last_modified": "2013-02-08 23:34:00",
+            "last_modified": "2013-03-17 11:52:00",
             "platforms": {
                 "*": [
                     {
-                        "version": "1.5.0",
-                        "url": "https://github.com/enriquein/JavaSetterGetter/archive/v1.5.0.zip"
+                        "version": "1.6.0",
+                        "url": "https://github.com/enriquein/JavaSetterGetter/archive/v1.6.0.zip"
                     }
                 ]
             }
