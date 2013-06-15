@@ -11,7 +11,7 @@
                 "*": [
                     {
                         "version": "1.6.0",
-                        "url": "https://github.com/enriquein/JavaSetterGetter/archive/v1.6.0.zip"
+                        "url": "https://nodeload.github.com/enriquein/JavaSetterGetter/zip/master"
                     }
                 ]
             }
